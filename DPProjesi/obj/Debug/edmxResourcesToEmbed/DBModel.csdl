@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="YZMMimarisDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="UsersTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserType" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TCKN" Type="Int64" Nullable="false" />
+    <Property Name="TelNo" Type="Int64" Nullable="false" />
+    <Property Name="Gender" Type="Boolean" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="HastaTable" Relationship="YZMMimarisDBModel.FK_HastaTable_UsersTable" FromRole="UsersTable" ToRole="HastaTable" />
+  </EntityType>
+  <EntityContainer Name="DbEntity" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="UsersTable" EntityType="Self.UsersTable" />
+    <EntitySet Name="HastaTable" EntityType="YZMMimarisDBModel.HastaTable" />
+    <AssociationSet Name="FK_HastaTable_UsersTable" Association="YZMMimarisDBModel.FK_HastaTable_UsersTable">
+      <End Role="UsersTable" EntitySet="UsersTable" />
+      <End Role="HastaTable" EntitySet="HastaTable" />
+    </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="YZMMimarisDBModel.sysdiagrams" />
+  </EntityContainer>
+  <EntityType Name="HastaTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="HastalikTipi" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="DiyetYontemi" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="UsersTable" Relationship="YZMMimarisDBModel.FK_HastaTable_UsersTable" FromRole="HastaTable" ToRole="UsersTable" />
+  </EntityType>
+  <Association Name="FK_HastaTable_UsersTable">
+    <End Type="YZMMimarisDBModel.UsersTable" Role="UsersTable" Multiplicity="1" />
+    <End Type="YZMMimarisDBModel.HastaTable" Role="HastaTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HastaTable">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+</Schema>
